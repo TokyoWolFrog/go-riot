@@ -1,0 +1,71 @@
+<click-table>
+  <input type="text" oninput={ search } value={ state.searchText } placeholder="Search">
+  <button class="pure-button pure-button-active" onclick={ () => randomClick() }>Random View</button>
+  <table border="1" cellpadding="5" cellspacing="0" class="pure-table pure-table-bordered">
+    <thead>
+      <tr>
+        <th each={ element in Object.entries(state.items[0]) }>{ element[0] }</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr each={ (item, index) in state.items } onclick={ () => toggle(index) } hidden={ state.displayArray.includes(index) ? false : true}>
+        <td each={ element in Object.entries(item) }>{ element[1] }</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    export default {
+      onBeforeMount(props, state) {
+        this.state = {
+          items: props.items,
+          clickIndex: 0,
+          displayArray: [0, 1],
+          displayNum: 3,
+          lastSearch: null,
+          searchText: ''
+        }
+      },
+      toggle(index) {
+        this.props.indexChanged && this.props.indexChanged(index)
+        this.update({
+          clickIndex: index
+        })
+      },
+      randomClick() {
+        let array = []
+        for (let i = 0; i < this.state.displayNum; i++) {
+          const displayIndex = Math.floor(Math.random()*this.state.items.length)
+          array.push(displayIndex)
+        }
+        this.update({
+          displayArray: array,
+          searchText: ''
+        })
+      },
+      search(e) {
+        const searchValue = e.target.value
+
+        if (this.state.lastSearch !== searchValue) {
+          let array = []
+          for (let i = 0; i < this.state.items.length; i++) {
+            if (this.state.items[i].Title.startsWith(searchValue)) {
+              array.push(i)
+            }
+          }
+          this.update({
+            displayArray: array
+          })
+        }
+
+        if (searchValue == "") {
+          this.update({
+            displayArray: [0, 1]
+          })
+        }
+
+        this.state.lastSearch = searchValue
+      }
+    }
+  </script>
+</click-table>

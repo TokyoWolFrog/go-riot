@@ -2,8 +2,8 @@
   <h3>{ props.title }</h3>
 
   <ul>
-    <li each={ item in state.items } hidden={ item.hidden }>
-      <label class={ item.done ? 'completed' : null }>
+    <li each={ item in state.items }>
+      <label class={ item.done ? 'completed' : null}>
         <input
           type="checkbox"
           checked={ item.done }
@@ -14,7 +14,7 @@
   </ul>
 
   <form onsubmit={ add }>
-    <input onkeyup={ edit } />
+    <input onkeyup={ edit } value={ state.text } />
     <button disabled={ !state.text }>
       Add #{ state.items.length + 1 }
     </button>
@@ -38,13 +38,10 @@
       add(e) {
         e.preventDefault()
 
-        if (this.state.text) {
+        const newText = this.state.text
+        if (newText) {
+          this.state.items.push({title: newText})
           this.update({
-            items: [
-              ...this.state.items,
-              // add a new item
-              {title: this.state.text}
-            ],
             text: ''
           })
         }
@@ -53,6 +50,9 @@
         item.done = !item.done
         // trigger a component update
         this.update()
+      },
+      get stateItems() {
+        return this.state.items;
       }
     }
   </script>

@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Riot Demo</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+  </head>
+
+  <body>
+
+    <click-table-in-detail></click-table-in-detail>
+
+    <script src="/static/click-table.riot" type="riot"></script>
+    <script src="/static/click-table-in-detail.riot" type="riot"></script>
+    <script src="https://unpkg.com/riot@6/riot+compiler.min.js"></script>
+
+    <script>
+      const golangJSONString = "{{.}}"
+      const itemsObj = JSON.parse(golangJSONString);
+
+      let array = []
+      for (let i = 0; i < itemsObj.length; i++) {
+        array.push({
+          Index: i,
+          Title: itemsObj[i].Title
+        })
+      }
+
+      (async function main() {
+        await riot.compile()
+
+        riot.mount('click-table-in-detail', {
+          items: itemsObj,
+          clickItems: array,
+          index: 0
+        })
+
+      }())
+    </script>
+  </body>
+</html>

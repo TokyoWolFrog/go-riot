@@ -19,7 +19,8 @@ type routerList []routerStruct
 func allRouters() routerList {
 	allRouters := routerList{
 		routerStruct{"Index", "GET", "/", indexHandler},
-		routerStruct{"Test", "GET", "/v1/todo", todoHandler},
+		routerStruct{"Todo", "GET", "/v1/todo", todoHandler},
+		routerStruct{"Demo", "GET", "/v1/demo", demoHandler},
 	}
 	return allRouters
 }

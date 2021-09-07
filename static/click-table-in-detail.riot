@@ -1,0 +1,56 @@
+<click-table-in-detail>
+  <div class="pure-g">
+    <div class="pure-u-4-24" hidden={state.hideClickTable}>
+      <click-table items={props.clickItems} indexChanged={ (newIndex) => changeIndex(newIndex) }/>
+    </div>
+    <div class="pure-u-2-24">
+      <button class="pure-button pure-button-active" onclick={ () => display() }>Display</button>
+      <button class="pure-button pure-button-active" onclick={ () => hide() }>Hide</button>
+    </div>
+    <div class={state.viewTableWidth}>
+      <table border="1" cellpadding="5" cellspacing="0" class="pure-table pure-table-bordered">
+        <thead>
+          <tr>
+            <th each={ element in Object.entries(state.items[0]) }>{ element[0] }</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr each={ (item, index) in state.items } hidden={ index === state.index ? false : true}>
+            <td each={ element in Object.entries(item) }>{ element[1] }</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    export default {
+      onBeforeMount(props, state) {
+        this.state = {
+          items: props.items,
+          index: props.index,
+          hideClickTable: false,
+          viewTableWidth: 'pure-u-5-24'
+        }
+      },
+      changeIndex(newIndex) {
+        this.update({
+          index: newIndex
+        })
+      },
+      hide() {
+        this.update({
+          hideClickTable: true,
+          viewTableWidth: 'pure-u-22-24'
+        })
+      },
+      display() {
+        this.update({
+          hideClickTable: false,
+          viewTableWidth: 'pure-u-5-24'
+        })
+      }
+    }
+  </script>
+
+</click-table-in-detail>
