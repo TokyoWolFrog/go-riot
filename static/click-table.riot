@@ -23,7 +23,7 @@
           displayArray: [0, 1],
           displayNum: 3,
           lastSearch: null,
-          searchText: ''
+          searchText: 'テスト'
         }
       },
       toggle(index) {
@@ -40,7 +40,7 @@
         }
         this.update({
           displayArray: array,
-          searchText: ''
+          searchText: ""
         })
       },
       search(e) {
@@ -54,7 +54,8 @@
             }
           }
           this.update({
-            displayArray: array
+            displayArray: array,
+            searchText: searchValue
           })
         }
 
