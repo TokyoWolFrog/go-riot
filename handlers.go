@@ -55,6 +55,9 @@ func demoHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		{"C", "detail1", "detail2", "detail3", "detail4"},
 		{"ab", "detail1", "detail2", "detail3", "detail4"},
 		{"Abc", "detail1", "detail2", "detail3", "detail4"},
+		{"日本語テスト", "detail1", "detail2", "detail3", "detail4"},
+		{"何か良い", "detail1", "detail2", "detail3", "detail4"},
+		{"日曜日", "detail1", "detail2", "detail3", "detail4"},
 	}
 	jsonBytes, _ := json.Marshal(demoList)
 
