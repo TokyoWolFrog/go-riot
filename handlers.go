@@ -14,6 +14,7 @@ import (
 
 var (
 	todoTplPath = "html/todo_tpl.html"
+	formTplPath = "html/form_tpl.html"
 	demoTplPath = "html/demo_tpl.html"
 )
 
@@ -37,6 +38,13 @@ func indexHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func todoHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	t := template.Must(template.ParseFiles(todoTplPath))
 	if err := t.Execute(w, todoTplPath); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func formHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	t := template.Must(template.ParseFiles(formTplPath))
+	if err := t.Execute(w, formTplPath); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -66,4 +74,31 @@ func demoHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err := t.ExecuteTemplate(w, demoTplName, string(jsonBytes)); err != nil {
 		log.Fatal(err)
 	}
+}
+
+type userStruct struct {
+	User string
+}
+
+func userHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	userJSON := userStruct{"Hello, " + ps.ByName("user") + "!(from Golang server)"}
+	jsonBytes, _ := json.Marshal(userJSON)
+	fmt.Fprintf(w, string(jsonBytes))
+}
+
+type formStruct struct {
+	Select   string
+	Name     string
+	Password string
+	Email    string
+	Foo      string
+	Cb       string
+}
+
+func postJSONHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var form formStruct
+	json.NewDecoder(r.Body).Decode(&form)
+
+	jsonBytes, _ := json.Marshal(form)
+	fmt.Fprintf(w, string(jsonBytes))
 }

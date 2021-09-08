@@ -1,0 +1,76 @@
+<form-test>
+
+  <input name="username" onblur={ validate } />
+  <span class="pure-form-message-inline" if={ state.fetchResult }>{ state.fetchResult }</span>
+  <span class="pure-form-message-inline" if={ state.error }>{ state.error }</span>
+
+  <form class="pure-form pure-form-aligned" onsubmit={ handleSubmit }>
+    <fieldset>
+        <div class="pure-control-group">
+            <label for="aligned-select">SelectTest</label>
+            <select name="Select">
+              <option value="Unotest">Unoテスト</option>
+              <option value="Duetest" if={true} selected>Dueテスト</option>
+            </select>
+        </div>
+        <div class="pure-control-group">
+            <label for="aligned-name">Username</label>
+            <input type="text" name="Name" placeholder="Username" value=100/>
+            <span class="pure-form-message-inline">This is a required field.</span>
+        </div>
+        <div class="pure-control-group">
+            <label for="aligned-password">Password</label>
+            <input type="text" name="Password" placeholder="Password" />
+        </div>
+        <div class="pure-control-group">
+            <label for="aligned-email">Email Address</label>
+            <input type="text" name="Email" placeholder="Email Address" />
+        </div>
+        <div class="pure-control-group">
+            <label for="aligned-foo">Supercalifragilistic Label</label>
+            <input type="text" name="Foo" placeholder="Enter something here..." />
+        </div>
+        <div class="pure-controls">
+            <label for="aligned-cb" class="pure-checkbox">
+                <input type="checkbox" name="Cb" value="terms"/> I have read the terms and conditions
+            </label>
+            <button type="submit" class="pure-button pure-button-primary">Submit</button>
+        </div>
+    </fieldset>
+  </form>
+
+  <script>
+    export default {
+      async validate() {
+        try {
+          const username = this.$('[name=username]').value
+          let response = await fetch(`/v1/user/${ username }`)
+          let json = await response.json()
+          this.update({
+            fetchResult: json.User
+          })
+        } catch (error) {
+          this.update({
+            error: error.message
+          })
+        }
+      },
+      async handleSubmit(e) {
+        e.preventDefault()
+        const data = new FormData(event.target)
+        const value = Object.fromEntries(data.entries())
+        let response = await fetch(
+              `/v1/post/json`, 
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(value)
+        })
+        let json = await response.json()
+        console.log(json)
+      }
+    }
+  </script>
+</form-test>

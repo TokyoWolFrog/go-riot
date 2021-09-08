@@ -3,7 +3,7 @@
 
   <ul>
     <li each={ item in state.items }>
-      <label class={ item.done ? 'completed' : null}>
+      <label class="pure-checkbox">
         <input
           type="checkbox"
           checked={ item.done }
@@ -15,7 +15,7 @@
 
   <form onsubmit={ add }>
     <input onkeyup={ edit } value={ state.text } />
-    <button disabled={ !state.text }>
+    <button class="pure-button" disabled={ !state.text }>
       Add #{ state.items.length + 1 }
     </button>
   </form>

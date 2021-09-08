@@ -20,7 +20,10 @@ func allRouters() routerList {
 	allRouters := routerList{
 		routerStruct{"Index", "GET", "/", indexHandler},
 		routerStruct{"Todo", "GET", "/v1/todo", todoHandler},
+		routerStruct{"Demo", "GET", "/v1/form", formHandler},
 		routerStruct{"Demo", "GET", "/v1/demo", demoHandler},
+		routerStruct{"GetTest", "GET", "/v1/user/:user", userHandler},
+		routerStruct{"PostTest", "POST", "/v1/post/json", postJSONHandler},
 	}
 	return allRouters
 }

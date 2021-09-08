@@ -1,0 +1,25 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>Riot Form</title>
+  </head>
+
+  <body>
+    <form-test></form-test>
+
+    <script src="/static/form-test.riot" type="riot"></script>
+    <script src="https://unpkg.com/riot@6/riot+compiler.min.js"></script>
+
+    <script>
+      (async function main() {
+        await riot.compile()
+
+        riot.mount('form-test', {
+          username: 'usernametest'
+        })
+
+      }())
+    </script>
+  </body>
+</html>
